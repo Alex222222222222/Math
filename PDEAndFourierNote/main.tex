@@ -1,0 +1,315 @@
+\documentclass{article}
+
+\usepackage[a4paper]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\usepackage{multicol}
+
+% See https://tex.stackexchange.com/a/39755
+% Simulated package file
+\begin{filecontents}{envcode.sty}
+    \newcommand\NewEnvCode[2]{%
+        \expandafter\def\csname code@#1\endcsname{#2}%
+        \expandafter\def\csname change@code@#1\endcsname{%
+            \expandafter\let\expandafter\Code\csname code@#1\endcsname
+        }%
+    }
+    
+    \newcommand\MakeDefault{%
+        \expandafter\let\expandafter\code@@default\csname code@\@currenvir\endcsname
+    }
+    
+    \newcommand\RunEnvCode{%
+        \let\Code=\code@@default
+        \csname change@code@\@currenvir\endcsname
+        \Code
+    }
+    
+    \AtBeginDocument{\MakeDefault}
+\end{filecontents}
+\usepackage{envcode}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{example}{Example}[section]
+
+\NewEnvCode{document}{default code}
+\NewEnvCode{theorem}{ theorem }
+\NewEnvCode{lemma}{ lemma }
+\NewEnvCode{corollary}{ corollary }
+\NewEnvCode{proposition}{ proposition }
+\NewEnvCode{definition}{ definition }
+\NewEnvCode{question}{ question }
+\NewEnvCode{example}{ example }
+
+\begin{document}
+
+\begin{enumerate}
+    \item Orders of ODE
+          \begin{definition}
+              An ODE is said to be of order $n$ if the highest order
+              derivative of the unknown function
+              that appears in the ODE is of order $n$.
+          \end{definition}
+    \item Degree of ODE
+          \begin{definition}
+              An ODE is said to be of degree $n$ if the highest power
+              of the highest order derivative of the unknown function
+              that appears in the ODE is $n$.
+          \end{definition}
+          \begin{example}
+              The ODE $y'' + y = 0$ is of order $2$ and degree $1$.
+          \end{example}
+    \item Linear ODE
+          \begin{definition}
+              An ODE is said to be linear if it can be written in the form
+              \begin{equation}
+                  a_n(x) y^{(n)} + a_{n-1}(x) y^{(n-1)} + \cdots + a_1(x) y' + a_0(x) y = f(x),
+              \end{equation}
+              where $a_i(x)$ are functions of $x$ and $f(x)$ is a function of $x$.
+          \end{definition}
+    \item Homogeneous ODE
+          \begin{definition}
+              An ODE is said to be homogeneous
+              if the term that does not involve the unknown function
+              is zero.
+          \end{definition}
+          \begin{example}
+              The ODE $y'' + y = 0$ is homogeneous.
+
+              The ODE $y'' + y = x$ is not homogeneous.
+          \end{example}
+    \item The superposition principle
+          \begin{theorem}
+              If $y_1(x)$ and $y_2(x)$ are solutions of a homogeneous linear ODE,
+              then $c_1 y_1(x) + c_2 y_2(x)$ is also a solution of the ODE,
+              where $c_1$ and $c_2$ are constants.
+          \end{theorem}
+    \item Series solution of ODE
+          \begin{theorem}
+              It is possible to construct a series solution for most ODEs.
+
+              For ODE:
+              \begin{equation}
+                  P(x) y'' + Q(x) y' + R(x) y = 0
+              \end{equation}
+
+              If we are interested in finding a solution around $x = x_0$,
+              we can assume the solution to be of the form:
+              \begin{equation}
+                  y(x) = \sum_{n=0}^{\infty} a_n (x - x_0)^n
+              \end{equation}
+
+              Then expanding $P$, $Q$, and $R$ in Taylor series around $x = x_0$,
+              we can substitute the series solution into the ODE,
+              and solve for the coefficients $a_n$.
+          \end{theorem}
+          \begin{example}
+              Find the series solution of the ODE
+              \begin{equation}
+                  (1+x^2) y'' + x y' - y = 0
+              \end{equation}
+              about $x = 0$.
+
+              We assume the solution to be of the form:
+              \begin{equation}
+                  y(x) = \sum_{n=0}^{\infty} a_n x^n
+              \end{equation}
+
+              Substituting the series solution into the ODE,
+              we have:
+              \begin{eqnarray}
+                  (1+x^2) \sum_{n=0}^{\infty} a_n n (n-1) x^{n-2}
+                  + x \sum_{n=0}^{\infty} a_n n x^{n-1}
+                  - \sum_{n=0}^{\infty} a_n x^n = 0 \\
+                  \sum_{n=0}^{\infty} a_n n (n-1) x^n
+                  + \sum_{n=0}^{\infty} a_n n x^n
+                  - \sum_{n=0}^{\infty} a_n x^n
+                  + \sum_{n=0}^{\infty} a_n n (n-1) x^{n-2}
+                  = 0 \\
+                  \sum_{n=0}^{\infty} a_n n (n-1) x^n
+                  + \sum_{n=0}^{\infty} a_n n x^n
+                  - \sum_{n=0}^{\infty} a_n x^n
+                  + \sum_{n=0}^{\infty} a_{n+2} (n+2) (n+1) x^{n}
+                  = 0 \\
+                  \sum_{n=0}^{\infty} \left(
+                  \left(
+                  n (n-1) + n - 1
+                  \right)
+                  a_n
+                  + (n+2) (n+1) a_{n+2}
+                  \right) x^n
+                  = 0
+              \end{eqnarray}
+
+              Since the series must be zero for all $x$,
+              the coefficients of $x^n$ must be zero for all $n$.
+              Therefore, we have:
+              \begin{eqnarray}
+                  \left(
+                  (n+1)(n-1)
+                  \right)
+                  a_n
+                  + (n+2) (n+1) a_{n+2}
+                  &=& 0, \quad n \geq 0 \\
+                  a_{n+2} &=& -\frac{(n+1)(n-1)}{(n+2)(n+1)} a_n \\
+                  a_{n+2} &=& -\frac{n-1}{n+2} a_n
+              \end{eqnarray}
+
+              And it is clear that the general solution depends on $a_0$ and $a_1$,
+              and has a degeneracy of $2$.
+          \end{example}
+    \item Ordinary points and singular points
+          \begin{definition}
+              Given an ODE of the form:
+              \begin{equation}
+                  P(x) y'' + Q(x) y' + R(x) y = 0
+              \end{equation}
+
+              A point $x = x_0$ is said to be an ordinary point if
+              $Q(x)/P(x)$, and $R(x)/P(x)$ are analytic at $x = x_0$.
+
+              Otherwise, $x = x_0$ is said to be a singular point.
+
+              Trying to find a series solution around an ordinary point
+              will result in a solution that has a degeneracy of $2$.
+          \end{definition}
+    \item Regular singular points
+          \begin{definition}
+              Given an ODE of the form:
+              \begin{equation}
+                  P(x) y'' + Q(x) y' + R(x) y = 0
+              \end{equation}
+
+              A singular point $x = x_0$ is said to be a regular singular point if
+              $(x - x_0) Q(x)/P(x)$, and $(x - x_0)^2 R(x)/P(x)$ are analytic at $x = x_0$.
+              Otherwise, it is an irregular singular point.
+
+              Finding a solution around a regular singular point will need special treatment.
+          \end{definition}
+    \item Euler Equation
+          \begin{definition}
+              An ODE of the form:
+              \begin{equation}
+                  x^2 y'' + a x y' + b y = 0
+              \end{equation}
+              is called an Euler equation.
+
+              If the quadraric eqation:
+              \begin{equation}
+                  m^2 + (a-1) m + b = 0
+              \end{equation}
+              has two distinct roots $m_1$ and $m_2$,
+              then the general solution of the Euler equation is:
+              \begin{equation}
+                  y(x) = c_1 x^{m_1} + c_2 x^{m_2}
+              \end{equation}
+
+              If the quadratic equation has a single root $m$,
+              then the general solution of the Euler equation is:
+              \begin{equation}
+                  y(x) = c_1 x^m + c_2 x^m \ln x
+              \end{equation}
+          \end{definition}
+    \item Frobenius method
+          \begin{definition}
+              The Frobenius method is a method to find the series solution of ODEs around regular singular points.
+
+              Given an ODE of the form:
+              \begin{equation}
+                  P(x) y'' + Q(x) y' + R(x) y = 0
+              \end{equation}
+
+              Assume the solution to be of the form:
+              \begin{equation}
+                  y(x) = \sum_{n=0}^{\infty} a_n (x - x_0)^{n+m}
+              \end{equation}
+
+              Where $m$ is the root of the indicial equation:
+              \begin{equation}
+                  m^2 + (\lim_{x\rightarrow x_0}\frac{xQ}{P}-1) m
+                  + \lim_{x\rightarrow x_0}\frac{x^2R}{P} = 0
+              \end{equation}
+
+              Substituting the series solution into the ODE,
+              we can solve for the coefficients $a_n$.
+
+              If the indical equation has two same roots,
+              then the general solution will be in the form
+              \begin{equation}
+                  y(x) = \log(x) \sum_{n=0}^{\infty} a_n (x - x_0)^{n+m}
+                  + \sum_{n=0}^{\infty} b_n (x - x_0)^{n+m}
+              \end{equation}
+
+              The Frobenius method is used when we try to find the series solution
+              around a regular singular point.
+          \end{definition}
+          \begin{example}
+              Find a series solution of the ODE:
+              \begin{equation}
+                  2x y'' + (3-2x) y' + y = 0
+              \end{equation}
+
+              It is easy to see that $x = 0$ is a regular singular point.
+
+              Solving the indicial equation:
+              \begin{equation}
+                  m^2 + (\frac{3}{2}-1) m = 0
+              \end{equation}
+              we have $m = 0$ or $m = 1$.
+
+              Therefore, assume the general solution to be of the form:
+              \begin{equation}
+                  y(x) = \sum_{n=0}^{\infty} a_n x^{n+m}
+              \end{equation}
+
+              Substituting the series solution into the ODE,
+              we have:
+              \begin{eqnarray}
+                  2x \sum_{n=0}^{\infty} a_n (n+m)(n+m-1) x^{n+m-2} && \\
+                  + (3-2x) \sum_{n=0}^{\infty} a_n (n+m) x^{n+m-1}
+                  + \sum_{n=0}^{\infty} a_n x^{n+m}
+                  &=& 0 \\
+                  2 \sum_{n=0}^{\infty} a_n (n+m)(n+m-1) x^{n+m-1} && \\
+                  + 3 \sum_{n=0}^{\infty} a_n (n+m) x^{n+m-1} && \\
+                  - 2 \sum_{n=0}^{\infty} a_n (n+m) x^{n+m}
+                  + \sum_{n=0}^{\infty} a_n x^{n+m}
+                  &=& 0 \\
+                  2a_{0} m (m-1) x^{m-1} + 3a_{0} m x^{m-1} && \\
+                  + 2 \sum_{n=0}^{\infty} \left(
+                  \left(
+                  (n + 1 + m)(2(n + m) + 3)
+                  \right) a_{n + 1}
+                  + \left(
+                  1 - 2(n + m)
+                  \right) a_{n} \right) x^{n+m}
+                  &=& 0
+              \end{eqnarray}
+
+              $2a_{0} m (m-1) x^{m-1} + 3a_{0} m x^{m-1}$ is automatically satisfied,
+              as it is the same with the indicial equation.
+
+              Therefore, we have:
+              \begin{eqnarray}
+                  \left(
+                  (n + 1 + m)(2(n + m) + 3)
+                  \right) a_{n + 1}
+                  + \left(
+                  1 - 2(n + m)
+                  \right) a_{n} &=& 0
+              \end{eqnarray}
+
+              As $m$ has two values, the general solution will depend on $a_0$ and $m$,
+              and has a degeneracy of $2$.
+          \end{example}
+\end{enumerate}
+
+\end{document}
