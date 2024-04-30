@@ -1,0 +1,111 @@
+\documentclass{article}
+
+\usepackage[a4paper]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\usepackage{multicol}
+
+% See https://tex.stackexchange.com/a/39755
+% Simulated package file
+\begin{filecontents}{envcode.sty}
+    \newcommand\NewEnvCode[2]{%
+        \expandafter\def\csname code@#1\endcsname{#2}%
+        \expandafter\def\csname change@code@#1\endcsname{%
+            \expandafter\let\expandafter\Code\csname code@#1\endcsname
+        }%
+    }
+    
+    \newcommand\MakeDefault{%
+        \expandafter\let\expandafter\code@@default\csname code@\@currenvir\endcsname
+    }
+    
+    \newcommand\RunEnvCode{%
+        \let\Code=\code@@default
+        \csname change@code@\@currenvir\endcsname
+        \Code
+    }
+    
+    \AtBeginDocument{\MakeDefault}
+\end{filecontents}
+\usepackage{envcode}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{example}{Example}[section]
+
+\NewEnvCode{document}{default code}
+\NewEnvCode{theorem}{ theorem }
+\NewEnvCode{lemma}{ lemma }
+\NewEnvCode{corollary}{ corollary }
+\NewEnvCode{proposition}{ proposition }
+\NewEnvCode{definition}{ definition }
+\NewEnvCode{question}{ question }
+\NewEnvCode{example}{ example }
+
+\begin{document}
+\begin{enumerate}
+    \item [3.13]
+          \begin{enumerate}
+              \item [(i)] If $H$ is a proper subgroup of a finite group $G$,
+                    then $G$ is not the union of all the conjugates of $H$.
+              \item [(ii)] If $G$ is a finite group with conjugacy classes
+                    $C_1$, $\dots$, $C_{m}$ and if $g_{i} \in C_{i}$,
+                    then $G = \langle g_{1}, \dots, g_{m} \rangle$
+          \end{enumerate}
+          \begin{proof}
+              \begin{enumerate}
+                  \item [(i)] We consider the stabilizer of $H$
+                        regarding the conjugate action of $G$ on the whole set of subgroups of $G$.
+                        \begin{equation}
+                            N(H) = \{g \in G \mid gHg^{-1} = H\}
+                        \end{equation}
+
+                        Clearly, as $H \subset N(H)$, $|H| \le |N(H)|$ .
+
+                        And clearly $\left[G: N(H)\right] = \frac{|G|}{|N(H)|}$ is the number of conjugates of $H$ in $G$.
+
+                        Consider the number of elements in the union of all the conjugates of $H$.
+                        \begin{equation}
+                            \left| \bigcup_{g \in G} gHg^{-1} \right| \le 1 + ( |H| -1 ) \left[G: N(H)\right]
+                        \end{equation}
+                        The first term $1$ on the right-hand side is the identity element of $G$,
+                        as the conjugate of the identity element is the identity element itself.
+                        The other part of the right-hand side is from counting the conjugate of all the other elements of $H$ in $G$,
+                        which two conjugates may give the same element in $G$.
+
+                        \begin{eqnarray}
+                            \left| \bigcup_{g \in G} gHg^{-1} \right| &\le& 1 + ( |H| -1 ) \left[G: N(H)\right] \\
+                            &=& 1 + ( |H| -1 ) \frac{|G|}{|N(H)|} \\
+                            &\le& 1 + ( |H| -1 ) \frac{|G|}{|H|} \\
+                            &=& 1 + |G| - \frac{|G|}{|H|} \\
+                            &<& |G|
+                        \end{eqnarray}
+
+                        The final strict inequality is because $H$ is a proper subgroup of $G$,
+                        and indicates that $G$ is not the union of all the conjugates of $H$.
+                  \item [(ii)]
+                        Let $H =\langle g_{1}, \dots, g_{m} \rangle$.
+
+                        If $H = \left\{1\right\}$, then $G$ has only one conjugacy class, and the conclusion is trivial.
+
+                        If $H = G$, then we prove the conclusion.
+
+                        Otherwise, $H$ is a proper subgroup of $G$.
+
+                        We assert that $\bigcup_{g \in G} gHg^{-1} = G$,
+                        as for any $g \in G$, there is a $k$, and $h \in G$,
+                        such that $g = h g_{k} h^{-1}$, and $h \in H$.
+
+                        However, this contradicts the conclusion of part i.
+              \end{enumerate}
+          \end{proof}
+\end{enumerate}
+\end{document}
