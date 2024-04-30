@@ -50,7 +50,7 @@
 				],
 				// Remove / comment the next 3 lines to remove dark view for pdf
 				"latex-workshop.view.pdf.color.dark.pageColorsBackground": "#171717", // For Dark Viewwer
-				"latex-workshop.latex.autoBuild.run": "never",
+				// "latex-workshop.latex.autoBuild.run": "never",
 				"latex-workshop.view.pdf.color.dark.pageColorsForeground": "#FFFFFF", // For Dark Viewer
 				"latex-workshop.view.pdf.color.dark.backgroundColor": "#171717", // For Dark Viewer
 				"editor.formatOnSave": true,
@@ -74,8 +74,13 @@
 			"extensions": [
 				"James-Yu.latex-workshop",
 				"GitHub.copilot",
+				"GitHub.copilot-chat",
+				"oderwat.indent-rainbow",
+				"yzhang.markdown-all-in-one",
+				"mutantdino.resourcemonitor",
+				"Gruntfuggly.todo-tree",
 				// Remove the line below if you do not want Live-Collaboration Feature
-				"ms-vsliveshare.vsliveshare",
+				// "ms-vsliveshare.vsliveshare",
 				// Uncomment the line below if you do not want LanguageTool Support
 				// "valentjn.vscode-ltex",
 				// Remove the line below if you do not want Grammarly
