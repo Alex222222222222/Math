@@ -317,6 +317,151 @@
               As $m$ has two values, the general solution will depend on $a_0$ and $m$,
               and has a degeneracy of $2$.
           \end{example}
+    \item Legendre Equation
+          \begin{definition}
+              The Legendre equation is given by:
+              and is given by:
+              \begin{equation}
+                  (1-x^2) y'' - 2x y' + \alpha(\alpha+1) y = 0
+                  \label{eq:legendre}
+              \end{equation}
+
+              As the Legendre equation has an ordinary point at $x = 0$,
+              we can solve this equation for two linearly independent series solutions:
+              $y_{0,\alpha}(x)$, and $y_{1,\alpha}(x)$.
+
+              If $\alpha$ is not a integer, then both $y_{0,\alpha}(x)$, and $y_{1,\alpha}(x)$
+              is an infinite series with a radius of convergence $1$.
+          \end{definition}
+    \item Legendre Polynomial
+          \begin{definition}
+              If $\alpha$ in Equation \ref{eq:legendre} is an integer,
+              then the series solution to Equation \ref{eq:legendre} is a polynomial,
+              which is often known as the Legendre polynomial.
+          \end{definition}
+          \begin{theorem} [Orthogonality of Legendre Polynomials]
+              The Legendre polynomials are orthogonal on the interval $[-1, 1]$,
+              that is:
+              \begin{equation}
+                  \int_{-1}^{1} P_{n}(x) P_{m}(x) \, dx = \frac{2\delta_{nm}}{2n+1}
+              \end{equation}
+          \end{theorem}
+          \begin{theorem}[Negative index Legendre Polynomial]
+              As the equation \ref{eq:legendre} is invariant under $\alpha \rightarrow -\alpha - 1$,
+              \begin{equation}
+                  P_{n} (x) = P_{-n-1}(x)
+              \end{equation}
+          \end{theorem}
+    \item Bessel Equation
+          \begin{definition}
+              The Bessel equation is given by:
+              \begin{equation}
+                  x^2 y'' + x y' + (x^2 - \nu ^2) y = 0
+              \end{equation}
+
+              As the Bessel equation has a regular singular point at $x = 0$,
+              we can solve this equation for two linearly independent series solutions.
+          \end{definition}
+    \item Fourier Series
+          \begin{definition}
+              The Fourier series of a function $f(x)$ is given by:
+              \begin{equation}
+                  f(x) = \frac{a_0}{2} + \sum_{n=1}^{\infty} a_n \cos \left( \frac{n \pi x}{L} \right) + b_n \sin \left( \frac{n \pi x}{L} \right)
+              \end{equation}
+              where
+              \begin{eqnarray}
+                  a_n &=& \frac{1}{L} \int_{-L}^{L} f(x) \cos \left( \frac{n \pi x}{L} \right) \, dx \\
+                  b_n &=& \frac{1}{L} \int_{-L}^{L} f(x) \sin \left( \frac{n \pi x}{L} \right) \, dx
+              \end{eqnarray}
+          \end{definition}
+    \item Trigonometric Integration Formula
+          \begin{definition}
+              The trigonometric integration formula is given by:
+              \begin{eqnarray}
+                  \int_{-\pi}^{\pi} \cos(mx)\cos(nx) dx &=& \pi \delta_{mn} \\
+                  \int_{-\pi}^{\pi} \sin(mx)\sin(nx) dx &=& \pi \delta_{mn} \\
+                  \int_{-\pi}^{\pi} \cos(mx)\sin(nx) dx &=& 0
+              \end{eqnarray}
+          \end{definition}
+    \item Fourier Convergence Theorem
+          \begin{theorem}
+              If $f(x)$ is piecewise continuous on $[-L, L]$,
+              then the Fourier series of $f(x)$ converges to $f(x)$ at all points where $f(x)$ is continuous,
+              and converges to the average of the left and right limits of $f(x)$ at points where $f(x)$ is discontinuous.
+
+              If the edge of the discontinuity is at $x = a$,
+              then there will be the Gibbs phenomenon at $x = a$.
+          \end{theorem}
+    \item Gibbs Phenomenon
+          \begin{definition}
+              The Gibbs phenomenon is the overshoot of the Fourier series at the edge of a discontinuity.
+          \end{definition}
+    \item Use Fourier Series to Solve ODE with Periodic Forcing Term
+          \begin{example}
+              Solve the ODE:
+              \begin{equation}
+                  y'' + \omega^2 y = F(x)
+              \end{equation}
+
+              Where $F$ is a $2 \pi$ periodic function with definition $F(x)$ on $[- \pi, \pi]$:
+              \begin{equation}
+                  F(x) = \begin{cases}
+                      \pi + t, & -\pi \leq x < 0 \\
+                      \pi - t, & 0 \leq x < \pi
+                  \end{cases}
+              \end{equation}
+
+              We first derive the Fourier series of $F(x)$:
+              \begin{eqnarray}
+                  a_{n} &=& \int_{-\pi}^{\pi} F(x) \cos(nx) \, dx \\
+                  &=& 2 \int_{0}^{\pi} (\pi - t) \cos(nx) \, dx \\
+                  &=& 2\left(
+                  \frac{1}{n}(\pi - t) \sin(nx) \mid_{0}^{\pi}
+                  +\int_{0}^{\pi} \frac{1}{n}\sin(nx)
+                  \right) \\
+                  &=& 2\left(
+                  +\frac{1}{n^2}(-\cos(nx)) \mid_{0}^{\pi}
+                  \right) \\
+                  &=& -\frac{2}{n^2}\left(
+                  \cos(n\pi) - 1
+                  \right) \\
+                  &=& -\frac{2}{n^2}\left(
+                  (-1)^n - 1
+                  \right) \\
+                  b_n &=& \int_{-\pi}^{\pi} F(x) \sin(nx) \, dx \\
+                  &=& 0 \\
+                  a_{0} &=& \int_{-\pi}^{\pi} F(x) \cos(nx) \, dx \\
+                  &=& 2 \int_{0}^{\pi} (\pi - t) \, dx \\
+                  &=& \pi^2
+              \end{eqnarray}
+
+              For the particular solution, we assume the solution to be of the form:
+              \begin{equation}
+                  y_p(x) = \frac{A_{0}}{2} + \sum_{n=1}^{\infty}\left(
+                  A_{n} \cos(nx) + B_{n} \sin(nx)
+                  \right)
+              \end{equation}
+
+              Then we have:
+              \begin{eqnarray}
+                  && \begin{cases}
+                      \omega^2 \frac{A_{0}}{2} = \frac{a_{0}}{2} \\
+                      -A_{n} n^2 + \omega^2 A_{n} = a_{n}        \\
+                      -B_{n} n^2 + \omega^2 B_{n} = b_{n} = 0
+                  \end{cases}
+                  \\
+                  && \begin{cases}
+                      A_{0} = \frac{a_{0}}{\omega^2}       \\
+                      A_{n} = \frac{a_{n}}{n^2 - \omega^2} \\
+                      B_{n} = 0
+                  \end{cases}
+              \end{eqnarray}
+
+              The general solution is then:
+              \begin{equation}
+                  y(x) = c_1 \cos(\omega x) + c_2 \sin(\omega x) + y_p(x)
+              \end{equation}
+          \end{example}
 \end{enumerate}
 
 \end{document}
