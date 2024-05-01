@@ -462,6 +462,95 @@
                   y(x) = c_1 \cos(\omega x) + c_2 \sin(\omega x) + y_p(x)
               \end{equation}
           \end{example}
+    \item Laplace Equation
+          \begin{definition}
+              The Laplace equation is given by:
+              \begin{equation}
+                  \nabla ^2 \phi = 0
+              \end{equation}
+          \end{definition}
+    \item Wave Equation
+          \begin{definition}
+              The wave equation is given by:
+              \begin{equation}
+                  \frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}
+              \end{equation}
+          \end{definition}
+    \item Heat Equation
+          \begin{definition}
+              The heat equation is given by:
+              \begin{equation}
+                  \frac{\partial u}{\partial t} = k \frac{\partial^2 u}{\partial x^2}
+              \end{equation}
+          \end{definition}
+    \item Using Change of Variable to Solve Wave Equation
+          \begin{proof}
+              Give the wave equation:
+              \begin{equation}
+                  \frac{\partial^2 u}{\partial t^2} = c^2 \frac{\partial^2 u}{\partial x^2}
+              \end{equation}
+
+              We can use the change of variable:
+              \begin{eqnarray}
+                  2\xi &=& x - ct \\
+                  2\eta &=& x + ct
+              \end{eqnarray}
+
+              Then we have:
+              \begin{eqnarray}
+                  \frac{\partial}{\partial x} &=& \frac{\partial}{\partial \xi} + c \frac{\partial}{\partial \eta} \\
+                  \frac{\partial}{\partial t} &=& -c \frac{\partial}{\partial \xi} + c \frac{\partial}{\partial \eta}
+              \end{eqnarray}
+
+              Substituting the change of variable into the wave equation,
+              we have:
+              \begin{eqnarray}
+                  \frac{\partial^2 u}{\partial t^2} &=& c^2 \frac{\partial^2 u}{\partial x^2} \\
+                  \left(
+                  -c \frac{\partial}{\partial \xi} + c \frac{\partial}{\partial \eta}
+                  \right)
+                  \left(
+                  -c \frac{\partial}{\partial \xi} + c \frac{\partial}{\partial \eta}
+                  \right) u
+                  &=& c^2 \left(
+                  \frac{\partial}{\partial \xi} + c \frac{\partial}{\partial \eta}
+                  \right)
+                  \left(
+                  \frac{\partial}{\partial \xi} + c \frac{\partial}{\partial \eta}
+                  \right) u \\
+                  \left(
+                  c^2 \frac{\partial^2 u}{\partial \xi^2}
+                  - 2c^2 \frac{\partial^2 u}{\partial \xi \partial \eta}
+                  + c^2 \frac{\partial^2 u}{\partial \eta^2}
+                  \right)
+                  &=& c^2 \left(
+                  \frac{\partial^2 u}{\partial \xi^2}
+                  + 2c \frac{\partial^2 u}{\partial \xi \partial \eta}
+                  + c^2 \frac{\partial^2 u}{\partial \eta^2}
+                  \right) \\
+                  \frac{\partial^2 u}{\partial \xi \partial \eta} &=& 0
+              \end{eqnarray}
+
+              Integrating the equation, we have:
+              \begin{equation}
+                  u = f(\xi) + g(\eta)
+              \end{equation}
+              which is the general solution of the wave equation.
+          \end{proof}
+    \item Solving Spherical Laplace Equation
+          \begin{proof}
+              We are interested in solving the Laplace equation in spherical coordinates,
+              with the assumption that the solution is independent of $\phi$.
+
+              The general solution is then:
+              \begin{equation}
+                  \phi(r, \theta) = \sum_{l=0}^{\infty}
+                  A_{l} r^l
+                  P_{l}(\cos \theta)
+                  + \sum_{l=-1}^{-\infty}
+                  B_{l} r^{l} P_{l}(\cos \theta)
+              \end{equation}
+          \end{proof}
 \end{enumerate}
 
 \end{document}
