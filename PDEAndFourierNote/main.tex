@@ -551,6 +551,40 @@
                   B_{l} r^{l} P_{l}(\cos \theta)
               \end{equation}
           \end{proof}
+    \item Fourier Transform
+          \begin{definition}
+              The Fourier transform of a function $f(x)$ is given by:
+              \begin{equation}
+                  \mathcal{F}(f) =  F(k) = \int_{-\infty}^{\infty} e^{ikx} f(x)  \, dx
+              \end{equation}
+
+              The inverse Fourier transform of a function $F(k)$ is given by:
+              \begin{equation}
+                  \mathcal{F}^{-1}(F) = f(x) = \frac{1}{2\pi} \int_{-\infty}^{\infty} e^{-ikx} F(k) \, dk
+              \end{equation}
+          \end{definition}
+    \item Properties of Fourier Transform
+          \begin{theorem}
+              The Fourier transform is linear, that is:
+              \begin{equation}
+                  \mathcal{F}(a f + b g) = a \mathcal{F}(f) + b \mathcal{F}(g)
+              \end{equation}
+
+              The Fourier transform of the derivative of a function is given by:
+              \begin{equation}
+                  \mathcal{F}(\frac{df}{dx}) = -ik \mathcal{F}(f)
+              \end{equation}
+
+              The Fourier transform of the convolution of two functions is given by:
+              \begin{equation}
+                  \mathcal{F}(f * g) = \mathcal{F}(f) \mathcal{F}(g)
+              \end{equation}
+
+              Double Fourier transform is the original function with a negative sign and a constant:
+                \begin{equation}
+                    \mathcal{F}(\mathcal{F}(f(x))) = 2\pi f(-x)
+                \end{equation}
+          \end{theorem}
 \end{enumerate}
 
 \end{document}
