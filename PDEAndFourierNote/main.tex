@@ -581,10 +581,37 @@
               \end{equation}
 
               Double Fourier transform is the original function with a negative sign and a constant:
-                \begin{equation}
-                    \mathcal{F}(\mathcal{F}(f(x))) = 2\pi f(-x)
-                \end{equation}
+              \begin{equation}
+                  \mathcal{F}(\mathcal{F}(f(x))) = 2\pi f(-x)
+              \end{equation}
           \end{theorem}
+    \item Laplace Transform
+          \begin{definition}
+              The Laplace transform of a function $f(t)$ is given by:
+              \begin{equation}
+                  \mathcal{L}(f) =  F(s) = \int_{0}^{\infty} e^{-st} f(t)  \, dt
+              \end{equation}
+
+              The inverse Laplace transform needs knowledge of complex analysis,
+              which is not covered in this note.
+          \end{definition}
+    \item Properties of Laplace Transform
+          \begin{definition}
+              The Laplace transform is linear, that is:
+              \begin{equation}
+                  \mathcal{L}(\alpha f + \beta g) =
+                  \alpha \mathcal{f} + \beta \mathcal{g}
+              \end{equation}
+
+              Laplace transform of indefinite integral is given by:
+              \begin{eqnarray}
+                  \mathcal{L}(\int_{0}^{t}f(x) dx) &=&
+                  \int_{0}^{\infty} e^{-st} \int_{0}^{t} f(x) dx dt \\
+                  &=& \left[-\frac{1}{s}e^{-st} \int_{0}^{t} f(x) dx \right]_{0}^{\infty}
+                  + \frac{1}{s} \int_{0}^{\infty} e^{-st} f(t) dt \\
+                  &=& \frac{1}{s} \mathcal{L}(f)
+              \end{eqnarray}
+          \end{definition}
 \end{enumerate}
 
 \end{document}
