@@ -1,0 +1,127 @@
+\documentclass{article}
+
+\usepackage[a4paper]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\usepackage{multicol}
+
+% See https://tex.stackexchange.com/a/39755
+% Simulated package file
+\begin{filecontents}{envcode.sty}
+    \newcommand\NewEnvCode[2]{%
+        \expandafter\def\csname code@#1\endcsname{#2}%
+        \expandafter\def\csname change@code@#1\endcsname{%
+            \expandafter\let\expandafter\Code\csname code@#1\endcsname
+        }%
+    }
+    
+    \newcommand\MakeDefault{%
+        \expandafter\let\expandafter\code@@default\csname code@\@currenvir\endcsname
+    }
+    
+    \newcommand\RunEnvCode{%
+        \let\Code=\code@@default
+        \csname change@code@\@currenvir\endcsname
+        \Code
+    }
+    
+    \AtBeginDocument{\MakeDefault}
+\end{filecontents}
+\usepackage{envcode}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{example}{Example}[section]
+
+\NewEnvCode{document}{default code}
+\NewEnvCode{theorem}{ theorem }
+\NewEnvCode{lemma}{ lemma }
+\NewEnvCode{corollary}{ corollary }
+\NewEnvCode{proposition}{ proposition }
+\NewEnvCode{definition}{ definition }
+\NewEnvCode{question}{ question }
+\NewEnvCode{example}{ example }
+
+\begin{document}
+    \begin{enumerate}
+        \item Long Division
+        \begin{definition}
+            Given two integers $a$ and $b$ with $b \neq 0$, 
+            there exist unique integers $q$ and $r$ such that $a = bq + r$ and $0 \leq r < |b|$.
+        \end{definition}
+        \item Greatest Common Divisor
+        \begin{definition}
+            Let $a$ and $b$ be integers, not both zero. The largest integer $d$ such that $d|a$ and $d|b$ is called the greatest common divisor of $a$ and $b$.
+        \end{definition}
+        \item Euclidean Algorithm
+        \begin{theorem}
+            Let $a$ and $b$ be integers, not both zero. Then the greatest common divisor of $a$ and $b$ is the same as the greatest common divisor of $b$ and $a \mod b$.
+        \end{theorem}
+        \item Bézout Identity
+        \begin{theorem}
+            Given integers $a$ and $b$, not both zero,
+            \begin{equation}
+                a \mathbb{Z} + b \mathbb{Z} = \{ax + by : x, y \in \mathbb{Z}\} = \gcd(a,b) \mathbb{Z}
+            \end{equation}
+        \end{theorem}
+        \item Coprime Integers
+        \begin{definition}
+            Two integers $a$ and $b$ are said to be coprime if $\gcd(a,b) = 1$.
+        \end{definition}
+        \item Prime and Composite Numbers
+        \begin{definition}
+            An integer $p > 1$ is said to be prime if its only positive divisors are $1$ and $p$. Otherwise, it is said to be composite.
+        \end{definition}
+        \item The fundamental theorem of arithmetic
+        \begin{theorem}
+            Every integer greater than $1$ can be written as a product of prime numbers, and this factorization is unique up to the order of the factors.
+        \end{theorem}
+        \item Diophantine Equations
+        \begin{definition}
+            A Diophantine equation is an equation where the unknowns are required to be integers or rational numbers.
+        \end{definition}
+        \item Rational Root Test
+        \begin{theorem}
+            Let $f(x) = a_n x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0$ be a polynomial with integer coefficients. If $r = p/q$ is a rational root of $f(x)$, then $p$ divides $a_0$ and $q$ divides $a_n$.
+        \end{theorem}
+        \item Eisenstein's Criterion
+        \begin{theorem}
+            Let $f(x) = a_n x^n + a_{n-1} x^{n-1} + \cdots + a_1 x + a_0$ be a polynomial with integer coefficients. If there exists a prime $p$ such that $p$ divides $a_i$ for $i = 0, 1, \ldots, n-1$, $p$ does not divide $a_n$, and $p^2$ does not divide $a_0$, then $f(x)$ is irreducible over $\mathbb{Q}$.
+        \end{theorem}
+        \item Linear Diophantine Equations
+        \begin{theorem}
+            Consider the linear Diophantine equation $ax + by = c$,
+            where $gcd(a,b,c) = 1$.
+
+            If $gcd(a,b) \neq 1$ then, the equation has no solution.
+
+            If $gcd(a,b) = 1$, then the equation has the following general solution:
+            \begin{equation}
+                x = x_0 + bt, \quad y = y_0 - at
+            \end{equation}
+            where $x_0$ and $y_0$ are particular solutions and $t$ is an integer.
+        \end{theorem}
+        \item Chinese Remainder Theorem
+        \begin{theorem}
+            Let $m_1, m_2, \ldots, m_k$ be pairwise coprime integers, and let $a_1, a_2, \ldots, a_k$ be any integers. Then the system of congruences
+            \begin{equation}
+                x \equiv a_1 \pmod{m_1}, \quad x \equiv a_2 \pmod{m_2}, \quad \ldots, \quad x \equiv a_k \pmod{m_k}
+            \end{equation}
+            has a unique solution modulo $m_1 m_2 \cdots m_k$.
+
+            The solution is given by
+            \begin{equation}
+                x = a_1 M_1 y_1 + a_2 M_2 y_2 + \cdots + a_k M_k y_k
+            \end{equation}
+            where $M_i = m_1 m_2 \cdots m_k / m_i$ and $y_i$ is the modular inverse of $M_i$ modulo $m_i$.
+        \end{theorem}
+    \end{enumerate}
+\end{document}
