@@ -1,0 +1,456 @@
+\documentclass{article}
+
+\usepackage[a4paper]{geometry}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+
+\usepackage{multicol}
+
+% See https://tex.stackexchange.com/a/39755
+% Simulated package file
+\begin{filecontents}{envcode.sty}
+    \newcommand\NewEnvCode[2]{%
+        \expandafter\def\csname code@#1\endcsname{#2}%
+        \expandafter\def\csname change@code@#1\endcsname{%
+            \expandafter\let\expandafter\Code\csname code@#1\endcsname
+        }%
+    }
+    
+    \newcommand\MakeDefault{%
+        \expandafter\let\expandafter\code@@default\csname code@\@currenvir\endcsname
+    }
+    
+    \newcommand\RunEnvCode{%
+        \let\Code=\code@@default
+        \csname change@code@\@currenvir\endcsname
+        \Code
+    }
+    
+    \AtBeginDocument{\MakeDefault}
+\end{filecontents}
+\usepackage{envcode}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{question}{Question}[section]
+\newtheorem{example}{Example}[section]
+
+\NewEnvCode{document}{default code}
+\NewEnvCode{theorem}{ theorem }
+\NewEnvCode{lemma}{ lemma }
+\NewEnvCode{corollary}{ corollary }
+\NewEnvCode{proposition}{ proposition }
+\NewEnvCode{definition}{ definition }
+\NewEnvCode{question}{ question }
+\NewEnvCode{example}{ example }
+
+\begin{document}
+\begin{enumerate}
+  \item Stochastic process
+        \begin{definition}
+          A stochastic process is a collection of random variables
+          $\{X_t\}_{t \in T}$, where $T$ is an index set.
+        \end{definition}
+  \item Markov Property
+        \begin{definition}
+          A stochastic process $\{X_t\}_{t \in T}$ has the Markov property if
+          \begin{equation}
+            P(X_{t_{n+1}} = x_{n+1} | X_{t_1} = x_1, \ldots, X_{t_n} = x_n) = P(X_{t_{n+1}} = x_{n+1} | X_{t_n} = x_n)
+          \end{equation}
+        \end{definition}
+  \item Markov Chain
+        \begin{definition}
+          A Markov chain is a stochastic process with the Markov property.
+        \end{definition}
+  \item Time-homogeneous Markov Chain
+        \begin{definition}
+          A Markov chain is time-homogeneous if the transition probabilities are independent of time.
+        \end{definition}
+  \item Transition Probability
+        \begin{definition}
+          The transition probability $P_{ij}$ is the probability of transitioning from state $i$ to state $j$.
+        \end{definition}
+  \item Transition Probability Matrix
+        \begin{definition}
+          The transition probability matrix $P$ is a matrix
+          where $P_{ij}$ is the probability of transitioning from state $i$ to state $j$.
+        \end{definition}
+  \item n-step Transition Probability Matrix
+        \begin{definition}
+          The n-step transition probability matrix $P^{(n)}$ is a matrix
+          where $P^{(n)}_{ij}$ is the probability of transitioning from state $i$ to state $j$ in $n$ steps.
+
+          \begin{equation}
+            P^{(n)}_{ij} = P(X_{t_n} = j | X_{t_0} = i)
+          \end{equation}
+          where $t_n = t_0 + n$.
+        \end{definition}
+  \item Chapman-Kolmogorov Equation
+        \begin{theorem}
+          The Chapman-Kolmogorov equation is given by
+          \begin{equation}
+            P^{(n+m)}_{ij} = \sum_{k} P^{(n)}_{ik} P^{(m)}_{kj}
+          \end{equation}
+        \end{theorem}
+  \item Hitting Probability
+        \begin{definition}
+          The hitting probability $f_{ij}$ is the probability of reaching state $j$
+          in the future
+          starting from state $i$.
+
+          \begin{eqnarray}
+            P_{i}(\text{hit } j) = f_{ij} &=& P(\text{reach state } j | \text{start at state } i) \\
+            && \sum_{n=1}^{\infty} P(\text{first reach state } j \text{ in } n \text{ steps} | \text{start at state } i)
+          \end{eqnarray}
+        \end{definition}
+  \item First Visit Probability
+        \begin{definition}
+          The first visit probability $f_{ij}^{(n)}$ is the probability of reaching state $j$
+          in exactly $n$ steps
+          starting from state $i$.
+
+          \begin{equation}
+            f_{ij}^{(n)} = P(\text{reach state } j \text{ in exactly } n \text{ steps} | \text{start at state } i)
+          \end{equation}
+        \end{definition}
+  \item Hitting Time
+        \begin{definition}
+          Given a stochastic path $\{X_t\}_{t \in T}$, the hitting time $T_{i}^{j}$ is the first time
+          the path reaches state $j$ starting from state $i$.
+
+          We use $T^{j}$ to denote the hitting time of state $j$ starting from the current state.
+        \end{definition}
+  \item Communicate
+        \begin{definition}
+          Two states $i$ is said to Communicate with $j$ and is written as
+          $i \rightarrow j$
+          if there exists a natural number $n$ such that
+          $P^{(n)}_{ij} > 0$.
+        \end{definition}
+  \item Inter Communicate
+        \begin{definition}
+          Two states $i$ and $j$ are said to Inter Communicate and are written as
+          $i \leftrightarrow j$
+          if $i \rightarrow j$ and $j \rightarrow i$.
+        \end{definition}
+        \begin{example}
+          $i \leftrightarrow i$ as $P^{(0)}_{ii} = 1$.
+        \end{example}
+  \item Irreducible Class of States
+        \begin{definition}
+          A class of states $
+            C = \{i_1, i_2, \ldots, i_n\}
+          $ is said to be Irreducible if
+          for all $i, j \in C$, $i \leftrightarrow j$.
+        \end{definition}
+  \item Closed Class of States
+        \begin{definition}
+          A class of states $
+            C = \{i_1, i_2, \ldots, i_n\}
+          $ is said to be Closed if
+          for all $i \in C$, there is no $j \notin C$ such that $i \rightarrow j$.
+        \end{definition}
+  \item Absorbing State
+        \begin{definition}
+          A state $i$ is said to be Absorbing if $P_{ii} = 1$.
+        \end{definition}
+  \item Recurrent (Persistent) State
+        \begin{definition}
+          A state $i$ is said to be Recurrent or Persistent if
+          the hitting probability $f_{ii} = 1$.
+        \end{definition}
+  \item Transient State
+        \begin{definition}
+          A state $i$ is said to be Transient if
+          it is not Recurrent.
+        \end{definition}
+  \item Recurrent Markov Chain
+        \begin{definition}
+          A Markov chain is said to be Recurrent if all states are Recurrent.
+        \end{definition}
+  \item Transient Markov Chain
+        \begin{definition}
+          A Markov chain is said to be Transient if all states are Transient.
+        \end{definition}
+  \item Identification of Recurrent States
+        \begin{theorem}
+          A state $i$ is Recurrent if and only if
+          the series
+          \begin{equation}
+            \sum_{n=1}^{\infty} P^{(n)}_{ii} = \infty
+          \end{equation}
+        \end{theorem}
+        \begin{theorem}
+          If a state $i$ is Transient, then
+          \begin{equation}
+            \lim_{n \to \infty} P^{(n)}_{ji} = 0, \forall j
+          \end{equation}
+
+          Note, that the converse of this theorem is not true.
+        \end{theorem}
+  \item There is at least one Recurrent State for finite state space
+        \begin{theorem}
+          For a finite class of closed state space, there is at least one Recurrent State.
+        \end{theorem}
+        \begin{proof}
+          Let $I$ be a finite class of closed state space.
+          If all states are Transient, then
+          \begin{equation}
+            \lim_{n \to \infty} P^{(n)}_{ii} = 0, \forall i \in I
+          \end{equation}.
+
+          Given some $i \in I$, we have
+          \begin{eqnarray}
+            P_{ii}^{(n)} &=& \sum_{j \in I} P_{ij} P_{ji}^{(n-1)}
+            \label{eqn:proof:atLeastOneRecurrentStateForFiniteStateSpace:Sum}
+          \end{eqnarray}
+
+          For all $j \in I$ such that $P_{ij} > 0$, we have
+          \begin{equation}
+            \lim_{n\rightarrow \infty} P_{ji}^{(n-1)} = 0
+          \end{equation}
+          if not, equation \ref{eqn:proof:atLeastOneRecurrentStateForFiniteStateSpace:Sum} will not hold.
+
+          Thus, for all $i \in I$, and all $j \in I$ such that $P_{ij} > 0$, we have
+          \begin{equation}
+            \lim_{n \to \infty} P^{(n)}_{ii} = 0
+          \end{equation}
+
+          Then, for all $n > 1$ we have
+          \begin{eqnarray}
+            1 &=& \sum_{j \in I} P^{(n)}_{ij} \\
+            \lim_{n \to \infty} 1 &=& \lim_{n \to \infty} \sum_{j \in I} P^{(n)}_{ij} \\
+            1 &=& \sum_{j \in I} \lim_{n \to \infty} P^{(n)}_{ij} \\
+            1 &=& \sum_{j \in I} 0 \\
+            1 &=& 0
+          \end{eqnarray}
+
+          This is a contradiction. Thus, there is at least one Recurrent State.
+        \end{proof}
+  \item Inter Communicate Classes have the same Recurrence
+        \begin{theorem}
+          If two states $i$ and $j$ Inter Communicate, then
+          $i$ is Recurrent if and only if $j$ is Recurrent.
+        \end{theorem}
+  \item Number of visits to a state
+        \begin{definition}
+          Given a stochastic path $\{X_t\}_{t \in T}$,
+          the number of visits to state $j$ is given by
+          \begin{equation}
+            N_{j} = \sum_{n=1}^{\infty} 1_{\{X_{n} = j\}}
+          \end{equation}
+        \end{definition}
+  \item Number of visits to a state at infinity
+        \begin{theorem}
+          \begin{equation}
+            P(N_{i} = \infty) = 1, \forall i \text{ Recurrent}
+          \end{equation}
+          \begin{equation}
+            P(N_{i} = \infty) = 0, \forall i \text{ Transient}
+          \end{equation}
+        \end{theorem}
+  \item Decomposition of State Space
+        \begin{theorem}
+          The state space can be decomposed into a set of Irreducible Closed Recurrent classes
+          and a set of Transient classes.
+        \end{theorem}
+        \begin{proof}
+          Given state space $I$,
+          as the InterCommunicate relation is an equivalence relation,
+          we have a partition of $I$ into Inter Communicate classes.
+          Let the classes be $I_{\alpha}, \alpha \in A$.
+
+          As all states in an InnerCommunicate class have the same Recurrence,
+          let
+          \begin{equation}
+            B = \{\alpha \in A | I_{\alpha} \text{ is Transient}\}
+          \end{equation}
+
+          Let $C = A - B$.
+          Then, for all $\alpha \in C$, $I_{\alpha}$ is Recurrent.
+
+          We then prove that $I_{\alpha}$ is Closed for all $\alpha \in C$.,
+          which finished the proof of this theorem.
+
+          If $I_{\alpha}$ is not closed,
+          then there exists $i \in I_{\alpha}$ and $j \notin I_{\alpha}$,
+          and $n \in \mathbb{N}$
+          such that $P_{ij}^{(n)} > 0$.
+
+          Also, as $i \in I_{\alpha}$, $i$ is Recurrent, and thus
+          \begin{equation}
+            f_{ii} = 1
+          \end{equation}
+
+          Also, in this case, $j$ can not Communicate with $i$,
+          as if it does, $j$ will be in $I_{\alpha}$,
+          which means
+          \begin{equation}
+            f_{ji} = 0
+          \end{equation}
+
+          Then we have
+          \begin{eqnarray*}
+            1 &=& f_{ii} \\
+            &=& \sum_{k\in I} P_{ik}^{(n)} f_{ki} \\
+            &=& P_{ij}^{(n)}*f_{ji} + \sum_{k\in I, k\neq j} P_{ik}^{(n)} f_{ki} \\
+            &=& \sum_{k\in I, k\neq j} P_{ik}^{(n)} f_{ki} \\
+            &\le& \sum_{k\in I, k\neq j} P_{ik}^{(n)} \\
+            &=& 1- P_{ij}^{(n)} \\
+            &<& 1
+          \end{eqnarray*}
+
+          This is a contradiction. Thus, $I_{\alpha}$ is closed.
+        \end{proof}
+  \item Mean Recurrence Time
+        \begin{definition}
+          The mean recurrence time $\mu_{i}$ is the expected number of steps to return to state
+          $i$ starting from state $i$.
+          \begin{equation}
+            \mu_{i} = \begin{cases}
+              \sum_{n=1}^{\infty} n f^{(n)}_{ii} & \text{if } i \text{ is Recurrent} \\
+              \infty                             & \text{if } i \text{ is Transient}
+            \end{cases}
+          \end{equation}
+        \end{definition}
+  \item Generating Function of Mean Recurrence Time
+        \begin{definition}
+          Define
+          \begin{equation}
+            F_{ij}(s) = \sum_{n=1}^{\infty} f_{ij}^{(n)} s^{n}
+          \end{equation}
+
+          Then we have
+          \begin{equation}
+            \mu_{i} = F_{ii}'(1)
+          \end{equation}
+        \end{definition}
+  \item Positive Recurrent and Null Recurrent
+        \begin{definition}
+          A state $i$ is said to be Positive Recurrent if
+          \begin{equation}
+            \mu_{i} < \infty
+          \end{equation}
+          A state $i$ is said to be Null Recurrent if
+          \begin{equation}
+            \mu_{i} = \infty
+          \end{equation}
+        \end{definition}
+  \item Identification of Positive Recurrent States
+        \begin{theorem}
+          A state $i$ is Null Recurrent if and only if
+          \begin{equation}
+            \lim_{n\infty} P_{ii}^{(n)} = 0
+          \end{equation}
+        \end{theorem}
+  \item Item in the same Irreducible Class have the same Recurrence
+        \begin{theorem}
+          If two states $i$ and $j$ are in the same Irreducible class, then
+          $i$ is Positive Recurrent if and only if $j$ is Positive Recurrent.
+
+          $i$ is Null Recurrent if and only if $j$ is Null Recurrent.
+        \end{theorem}
+  \item Finite State Class has at least one Positive Recurrent State
+        \begin{theorem}
+          For a finite class of closed state space,
+          there is at least one Positive Recurrent State.
+        \end{theorem}
+  \item The Expected First Hit Time
+        \begin{definition}
+          The expected first hit time $\beta_{ij}$ is
+          the expected number of steps to reach state $j$
+          starting from state $i$.
+          \begin{equation}
+            \beta_{ij} = \begin{cases}
+              \sum_{n=1}^{\infty} n f_{ij}^{(n)} & \text{if } i \neq j \\
+              \mu_{i}                            & \text{if } i = j
+            \end{cases}
+          \end{equation}
+        \end{definition}
+  \item Periodicity
+        \begin{definition}
+          A state $i$ is said to be periodic if
+          the greatest common divisor of the set
+          \begin{equation}
+            \{n \in \mathbb{N} | P_{ii}^{(n)} > 0\}
+          \end{equation}
+          is greater than 1.
+
+          If the greatest common divisor is 1,
+          then the state is said to be aperiodic.
+        \end{definition}
+  \item State in Irreducible State Class Have Same Periodicity
+        \begin{theorem}
+          Given two states $i \leftrightarrow j$,
+          then $i$ and $j$ have the same period.
+        \end{theorem}
+  \item Equilibrium (Stationary) Distribution of a Markov Chain
+        \begin{definition}
+          A distribution $\pi$ is said to be an equilibrium distribution
+          if
+          \begin{eqnarray}
+            \sum_{i\in S} \pi_{i} &=& 1 \\
+            \pi &=& \pi P
+          \end{eqnarray}
+        \end{definition}
+  \item Relationship Between Stationary State and Mean Recurrence Time
+        \begin{theorem}
+          An Irreducible Markov Chain is Positive Recurrent if and only if
+          there exists a unique stationary distribution $\pi$.
+
+          In this case, the stationary distribution is given by
+          \begin{equation}
+            \pi_{i} = \frac{1}{\mu_{i}}
+          \end{equation}
+        \end{theorem}
+  \item Ergodic Markov Chain Limiting Distribution
+        \begin{definition}
+          A Markov Chain is said to be Ergodic if
+          it is Irreducible, Positive Recurrent, and Aperiodic.
+        \end{definition}
+        \begin{theorem}
+          For an Ergodic Markov Chain, the limiting distribution exists and is given by
+          \begin{equation}
+            \lim_{n \to \infty} P^{(n)}_{ij} = \pi_{j}, \forall i, j
+          \end{equation}
+        \end{theorem}
+  \item Passage Time to a Closed State Space
+        \begin{definition}
+          Given a closed state space $A$,
+          and given a path $\{X_t\}_{t \in T}$,
+          where $X_{0} = i$
+          the first passage time to $A$ is given by
+          \begin{equation}
+            T^{A}_{i} = \inf\{t > 0 | X_{t} \in A\}
+          \end{equation}
+        \end{definition}
+  \item Absorption Probability to a Closed State Space
+        \begin{definition}
+          Given a closed state space $A$,
+          and given a path $\{X_t\}_{t \in T}$,
+          where $X_{0} = i$
+          the absorption probability to $A$ is given by
+          \begin{equation}
+            \alpha^{A}_{i} = P(T^{A}_{i} < \infty)
+          \end{equation}
+        \end{definition}
+  \item Mean Passage Time to a Closed State Space
+        \begin{definition}
+          Given a closed state space $A$,
+          and given a path $\{X_t\}_{t \in T}$,
+          where $X_{0} = i$
+          the mean passage time to $A$ is given by
+          \begin{equation}
+            \beta^{A}_{i} = E[T^{A}_{i}]
+          \end{equation}
+        \end{definition}
+\end{enumerate}
+
+
+\end{document}
